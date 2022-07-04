@@ -1,5 +1,6 @@
 
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -35,11 +36,11 @@ public class Log_in extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        get_username = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        get_password = new javax.swing.JPasswordField();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -73,9 +74,9 @@ public class Log_in extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(51, 51, 255));
         jLabel1.setText("International Islamic University Chittagong");
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        get_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                get_passwordActionPerformed(evt);
             }
         });
 
@@ -108,7 +109,7 @@ public class Log_in extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(get_username, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -116,7 +117,7 @@ public class Log_in extends javax.swing.JFrame {
                                 .addComponent(jLabel3)))
                         .addGap(82, 82, 82))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(get_password, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,7 +131,7 @@ public class Log_in extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(get_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +141,7 @@ public class Log_in extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2))
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(get_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
         );
 
@@ -164,29 +165,31 @@ public class Log_in extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     String Epass = String.valueOf(jPasswordField1.getPassword());
-      String name = String.valueOf(jTextField2.getText());
-        String query = "select *from log in where Name = '" + name +"'";
-        String Passdb = "";
-        try{
-            ResultSet rs;
-            rs = (ResultSet) DBUTILS.queryExecute(query);
-            Passdb = rs.getString("Password");
-        }catch(Exception e){
+    String input_username = get_username.getText();
+        String user_password = String.valueOf(get_password.getText());
+        String dbpassword="";
+        String query ="Select * from log in where Name = '"+input_username+"'";
+        try {
+            ResultSet rs=DBUTILS.queryExecute(query);
+            if(rs.next()) {
+                dbpassword=rs.getString("Password");
+
+            }
+        } catch(Exception e){
+
         }
-        if(Epass.equals(Passdb))
-        {
+        if(dbpassword!="" && user_password.equals(dbpassword)) {
+            JOptionPane.showMessageDialog(this,"Login successful");
             this.setVisible(false);
             new Stu_search().setVisible(true);
         }
-        else{
-            
-        }          // TODO add your handling code here:
+        else
+        JOptionPane.showMessageDialog(this,"Login failed");         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void get_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_get_passwordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_get_passwordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,6 +228,8 @@ public class Log_in extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField get_password;
+    private javax.swing.JTextField get_username;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -234,7 +239,5 @@ public class Log_in extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
